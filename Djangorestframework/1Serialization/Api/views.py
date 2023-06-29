@@ -2,13 +2,14 @@ from django.shortcuts import render
 from .models import *
 from .serializers import *
 from rest_framework.renderers import JSONRenderer
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 def employees(request):
     employee = Employee.objects.all()
     serializer = EmployeeSerializer(employee, many=True)
-    json_data = JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    # json_data = JSONRenderer().render(serializer.data)
+    # return HttpResponse(json_data, content_type='application/json')
+    return JsonResponse(serializer.data, safe=False)
 
 def employee(request, pk):
     employee = Employee.objects.get(id=pk)
